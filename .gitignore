@@ -26,3 +26,9 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+
+# yeoman stuff
+dist
+.tmp
+.sass-cache
+bower_components
