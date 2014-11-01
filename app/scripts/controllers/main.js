@@ -13,6 +13,4 @@ angular.module('actorGraphor').controller('MainCtrl', function ($scope) {
 		'AngularJS',
 		'Karma'
 	];
-
-	
 });

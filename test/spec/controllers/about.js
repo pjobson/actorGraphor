@@ -3,7 +3,7 @@
 describe('Controller: AboutCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('85App'));
+  beforeEach(module('actorGraphor'));
 
   var AboutCtrl,
     scope;

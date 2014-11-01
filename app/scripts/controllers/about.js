@@ -7,11 +7,10 @@
  * # AboutCtrl
  * Controller of the actorGraphor
  */
-angular.module('actorGraphor')
-  .controller('AboutCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+angular.module('actorGraphor').controller('AboutCtrl', function ($scope) {
+	$scope.awesomeThings = [
+		'HTML5 Boilerplate',
+		'AngularJS',
+		'Karma'
+	];
+});

@@ -1,5 +1,5 @@
 {
-  "name": "85",
+  "name": "actorGraphor",
   "version": "0.0.0",
   "dependencies": {},
   "devDependencies": {
@@ -36,5 +36,9 @@
   },
   "scripts": {
     "test": "grunt test"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "http://github.com/pjobson/actorGraphor.git"
   }
 }
