@@ -5,8 +5,20 @@ body {
   font-family: 'Raleway', sans-serif;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5, h6 {
   font-family: 'Josefin Sans', sans-serif;
+}
+
+h5.bio {
+  font-family: 'Raleway', sans-serif
+  letter-spacing: .3em;
+  font-variant: small-caps;
+}
+
+h5.bio::first-letter {
+  float: left;
+  font-size: 1.3em;
+  line-height: 20px;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -82,4 +94,15 @@ h1, h2, h3, h4 {
   .jumbotron {
     border-bottom: 0;
   }
+}
+
+img.bioPic {
+  float: left;
+  margin: 0 10px 10px 0;
+}
+
+p.cite {
+  font-size: .75em;
+  text-align: center;
+  color: #8F8F8F;
 }

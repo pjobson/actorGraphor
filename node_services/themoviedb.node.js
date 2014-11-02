@@ -1,3 +1,18 @@
+/*
+	Image Path
+	http://image.tmdb.org/t/p/original/x5bWINuTZxSCAYM5AechsLSlI3e.jpg
+	                          original
+	                          w1280
+	                          w780
+	                          w632
+	                          w500
+	                          w300
+	                          w185
+	                          w92
+	                          w45
+*/
+
+
 'use strict';
 
 var apikey     = 'c3df732a39ff82b47035cda9078a7a24';
@@ -163,37 +178,3 @@ var setCache = function(type,query,res) {
 		console.log(results);
 	});
 };
-
-
-/*
-	moviedbcache
-		searches   // cache of searches
-		actor      // cache of actor queries
-
-
-	Image Path
-	http://image.tmdb.org/t/p/original/x5bWINuTZxSCAYM5AechsLSlI3e.jpg
-	                          original
-	                          w1280
-	                          w780
-	                          w632
-	                          w500
-	                          w300
-	                          w185
-	                          w92
-	                          w45
-*/
-
-
-
-// mdb.movieInfo({id: 100}, function(err, res){
-//   console.log(res);
-// });
-
-// mdb.searchPerson({query: 'Pit' }, function(err, res){
-//   console.log(res);
-// });
-
-// mdb.personImages({id:287}, function(err, res) {
-// 	console.log(res);
-// });
