@@ -6,7 +6,7 @@
 	<h5 ng-repeat="aka in profile.aka">
 		aka: {{ aka }}
 	</h5>
-	<h3>{{ profile.placeofbirth }}</h3>
+	<h3 ng-if="placeofbirth">{{ profile.placeofbirth }}</h3>
 	<h4 ng-if="profile.birthday">
 		(
 		<span class="birthday">{{ profile.birthday | date:'dd MMM yyyy' }}</span>
