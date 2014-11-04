@@ -13,9 +13,11 @@
 		<span ng-if="profile.deathday" class="deathday"> - {{ profile.deathday | date:'dd MMM yyyy' }}</span>
 		)
 	</h4>
-	<h5 class="bio">Biography</h5>
-	<div id="biography">
-		<p ng-repeat="bio in profile.biography" ng-class="{ wiki: bio.match(citePattern).length > 0 }">{{ bio }}</p>
+	<div ng-if="profile.biography">
+		<h5 class="bio">Biography</h5>
+		<div id="biography">
+			<p ng-repeat="bio in profile.biography" ng-class="{ wiki: bio.match(citePattern).length > 0 }">{{ bio }}</p>
+		</div>
 	</div>
 </div>
 

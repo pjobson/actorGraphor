@@ -25,7 +25,7 @@ angular.module('actorGraphor').controller('GraphorCtrl', [
 			$scope.citePattern = new RegExp('^Description above');
 			$scope.profile = {
 				pic:          (pIData.profile_path) ? '/img185'+pIData.profile_path : '/images/default_pic.jpg',
-				biography:    pIData.biography                   || 'No biographical information found.',
+				biography:    pIData.biography                   || false,
 				birthday:     toEpoch(pIData.birthday)           || false,
 				deathday:     toEpoch(pIData.deathday)           || false,
 				imdbId:       pIData.imdb_id                     || false,
@@ -34,9 +34,11 @@ angular.module('actorGraphor').controller('GraphorCtrl', [
 				aka:          pIData.also_known_as               || []
 			};
 
-			$scope.profile.biography = $scope.profile.biography.replace(/&amp;/g,'&').replace(/\sDescription above/,'\nDescription above').split(/\n+/);
-			if ($scope.profile.biography[0] && /^From Wikipedia/.test($scope.profile.biography[0])) {
-				$scope.profile.biography.shift();
+			if ($scope.profile.biography) {
+				$scope.profile.biography = $scope.profile.biography.replace(/&amp;/g,'&').replace(/\sDescription above/,'\nDescription above').split(/\n+/);
+				if ($scope.profile.biography[0] && /^From Wikipedia/.test($scope.profile.biography[0])) {
+					$scope.profile.biography.shift();
+				}
 			}
 
 			loadCredits();

@@ -1,7 +1,7 @@
 <div id="actorList">
 	<h1>Search for Actor</h1>
 	<div>
-		Name: <input type="text" ng-keyup="keyup($event,nameValue)" ng-model="nameValue" />
+		<strong>Name: </strong><input type="text" ng-keyup="keyup($event,nameValue)" ng-model="nameValue" focus-here="true" />
 	</div>
 	<div ng-show="actorList.length>0">
 		<ul>

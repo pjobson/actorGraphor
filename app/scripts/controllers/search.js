@@ -19,7 +19,7 @@ angular.module('actorGraphor').controller('SearchCtrl', [
 		};
 
 		$scope.keyup = function(ev,nameValue) {
-			if (nameValue.length>3 || ev.keyCode === 13) {
+			if ((nameValue && nameValue.length>3) || ev.keyCode === 13) {
 				actorSearch(nameValue);
 			}
 		};

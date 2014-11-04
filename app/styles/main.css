@@ -126,3 +126,16 @@ div#biography p.wiki {
 div#actorList {
   margin-bottom: 20px;
 }
+
+#actorList input {
+  border: 1px solid #428bca;
+  padding: 3px;
+  margin: 0px;
+  font-family: 'Fira Mono', 'Courier New', monospace;
+  width: 500px;
+}
+
+:focus {
+  outline-color: transparent;
+  outline-style: none;
+}
