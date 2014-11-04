@@ -35,7 +35,7 @@ angular.module('actorGraphor').controller('GraphorCtrl', [
 			};
 
 			$scope.profile.biography = $scope.profile.biography.replace(/&amp;/g,'&').replace(/\sDescription above/,'\nDescription above').split(/\n+/);
-			if ($scope.profile.biography[0].match(/^From Wikipedia/).length>0) {
+			if ($scope.profile.biography[0] && /^From Wikipedia/.test($scope.profile.biography[0])) {
 				$scope.profile.biography.shift();
 			}
 
