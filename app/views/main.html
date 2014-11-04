@@ -10,6 +10,22 @@
 	<h3>Graphor a recently viewed actor!</h3>
 	<p>...or go <a href="#/search">search</a> for some.</p>
 	<ul>
+		<span ng-if="cachedActors.length===0">
+			<li><a href="#/graphor?person=287">Brad Pitt</a></li>
+			<li><a href="#/graphor?person=1245">Scarlett Johansson</a></li>
+			<li><a href="#/graphor?person=18918">Dwayne Johnson</a></li>
+			<li><a href="#/graphor?person=31">Tom Hanks</a></li>
+			<li><a href="#/graphor?person=9827">Rose Byrne</a></li>
+			<li><a href="#/graphor?person=28782">Monica Bellucci</a></li>
+			<li><a href="#/graphor?person=17647">Michelle Rodriguez</a></li>
+			<li><a href="#/graphor?person=8167">Paul Walker</a></li>
+			<li><a href="#/graphor?person=1461">George Clooney</a></li>
+			<li><a href="#/graphor?person=72129">Jennifer Lawrence</a></li>
+			<li><a href="#/graphor?person=85">Johnny Depp</a></li>
+			<li><a href="#/graphor?person=56731">Jessica Alba</a></li>
+			<li><a href="#/graphor?person=63">Milla Jovovich</a></li>
+			<li><a href="#/graphor?person=3896">Liam Neeson</a></li>
+		</span>
 		<li ng-repeat="actor in cachedActors"><a ng-href="#/graphor?person={{ actor.id }}">{{ actor.name }}</a></li>
 	</ul>
 </div>
