@@ -17,155 +17,121 @@ var apikey     = 'c3df732a39ff82b47035cda9078a7a24';
 var mdb        = require('../node_modules/moviedb')(apikey);
 var express    = require('../node_modules/express');
 var easymongo  = require('../node_modules/easymongo');
-var mongo      = new easymongo({dbname: 'moviedbcache'});
 
-var tmdb = {
-	init: function() {
-		this.router    = express.Router();
-		this.app       = express();
-		this.port      = process.env.PORT || 8080;
-		this.cachedRes = null;
-		this.res       = null;
+var app    = express();
+var router = express.Router();
+var port   = process.env.PORT || 8080;
 
-		this.setupRouter();
-		this.setupRoutes();
-		this.startApp();
-	},
-	startApp: function() {
-		this.app.use('/', this.router);
-		this.app.listen(this.port);
-		console.log('listening on port: '+ this.port);
-	},
-	setupRouter: function() {
-		this.router.get('/', function(req, res) {
-			res.json({ message: '/' });
-		});
-	},
-	setupRoutes: function() {
-		var that = this;
-		// Search Person
-		this.router.route('/searchPerson').get(function(req, res) {
-			res.json({ message: 'missing search parameter' });
-		});
+router.get('/', function(req, res) {
+	res.json({ message: '/' });
+});
 
-		this.router.route('/searchPerson/:actorName').get(function(req, res) {
-			that.res = res;
-			var actorName = escape(req.params.actorName);
+// Search Person
+router.route('/searchPerson').get(function(req, res) {
+	res.json({ message: 'missing search parameter' });
+});
+router.route('/searchPerson/:actorName').get(function(req, res) {
+	var actorName = escape(req.params.actorName);
 
-			that.searchPersonCallback = function(results) {
-				console.log('searchPersonCallback');
-				if (results.length>0) {
-					// show cached result
-					console.log('displaying cached result');
-					that.res.json(results[0].result);
-				} else {
-					// get result and cache it
-					mdb.searchPerson({ query: actorName }, function(err, mdbRes){
-						setCache('searchPerson',actorName,mdbRes);
-						that.res.json(mdbRes);
-					});
-				}
-			};
+	getCache({
+		type:      'searchPerson',
+		query:     actorName,
+		res:       res,
+		callback:  resultCallback
+	});
+});
 
-			getCache('searchPerson',actorName,that.searchPersonCallback);
-		});
+// Person Info
+router.route('/personInfo').get(function(req, res) {
+	res.json({ message: 'missing person id' });
+});
+router.route('/personInfo/:id').get(function(req, res) {
+	var personId = escape(req.params.id);
 
-		// Person Info
-		this.router.route('/personInfo').get(function(req, res) {
-			res.json({ message: 'missing person id' });
-		});
+	getCache({
+		type:      'personInfo',
+		query:     personId,
+		res:       res,
+		callback:  resultCallback
+	});
+});
 
-		this.router.route('/personInfo/:id').get(function(req, res) {
-			that.res = res;
-			var personId = escape(req.params.id);
+// Person Credits
+router.route('/personCredits').get(function(req, res) {
+	res.json({ message: 'missing person id' });
+});
+router.route('/personCredits/:id').get(function(req, res) {
+	var personId = escape(req.params.id);
 
-			that.personInfoCallback = function(results) {
-				console.log('personInfoCallback');
-				if (results.length>0) {
-					// show cached result
-					console.log('displaying cached result');
-					that.res.json(results[0].result);
-				} else {
-					// get result and cache it
-					mdb.personInfo({ id: personId }, function(err, mdbRes){
-						setCache('personInfo',personId,mdbRes);
-						that.res.json(mdbRes);
-					});
-				}
-			};
+	getCache({
+		type:      'personCredits',
+		query:     personId,
+		res:       res,
+		callback:  resultCallback
+	});
+});
 
-			getCache('personInfo',personId,that.personInfoCallback);
-		});
+// Movie Info
+router.route('/movieInfo').get(function(req, res) {
+	res.json({ message: 'missing movie id' });
+});
+router.route('/movieInfo/:id').get(function(req, res) {
+	var movieId = escape(req.params.id);
 
-		// Person Credits
-		this.router.route('/personCredits').get(function(req, res) {
-			res.json({ message: 'missing person id' });
-		});
+	getCache({
+		type:      'movieInfo',
+		query:     movieId,
+		res:       res,
+		callback:  resultCallback
+	});
+});
 
-		this.router.route('/personCredits/:id').get(function(req, res) {
-			that.res = res;
-			var personId = escape(req.params.id);
+app.use('/', router);
+app.listen(port);
+console.log('listening on port: '+ port);
 
-			that.personCreditsCallback = function(results) {
-				console.log('personCreditsCallback');
-				if (results.length>0) {
-					// show cached result
-					console.log('displaying cached result');
-					that.res.json(results[0].result);
-				} else {
-					// get result and cache it
-					mdb.personCredits({ id: personId }, function(err, mdbRes){
-						setCache('personCredits',personId,mdbRes);
-						that.res.json(mdbRes);
-					});
-				}
-			};
-
-			getCache('personCredits',personId,that.personCreditsCallback);
-		});
-
-		// Movie Info
-		this.router.route('/movieInfo').get(function(req, res) {
-			res.json({ message: 'missing movie id' });
-		});
-
-		this.router.route('/movieInfo/:id').get(function(req, res) {
-			that.res = res;
-			var movieId = escape(req.params.id);
-
-			that.movieInfoCallback = function(results) {
-				console.log('movieInfoCallback');
-				if (results.length>0) {
-					// show cached result
-					console.log('displaying cached result');
-					that.res.json(results[0].result);
-				} else {
-					// get result and cache it
-					mdb.movieInfo({ id: movieId }, function(err, mdbRes){
-						setCache('movieInfo',movieId,mdbRes);
-						that.res.json(mdbRes);
-					});
-				}
-			};
-
-			getCache('movieInfo',movieId,that.movieInfoCallback);
+var resultCallback = function(obj) {
+	// obj.origRes
+	// obj.query
+	// obj.type
+	// obj.results
+	console.log(obj.type +' callback');
+	console.log('query: '+ obj.query);
+	if (obj.results.length>0) {
+		// show cached result
+		console.log('--displaying cached result');
+		obj.origRes.json(obj.results[0].result);
+		obj = null;
+	} else {
+		// get result and cache it
+		mdb[obj.type]({ id: obj.query }, function(err, mdbRes){
+			setCache(obj.type,obj.query,mdbRes);
+			obj.origRes.json(mdbRes);
+			obj = null;
 		});
 	}
-
 };
 
-tmdb.init();
+var getCache = function(obj) {
+	var mongo      = new easymongo({dbname: 'moviedbcache'});
+	var collection = mongo.collection(obj.type);
 
-
-var getCache = function(type,query,callback) {
-	var collection = mongo.collection(type);
-
-	collection.find({query: query}, {limit: 1}, function(error, results) {
-		callback(results);
+	collection.find({query: obj.query}, {limit: 1}, function(error, results) {
+		if (error) {
+			console.log('-------------------getCache error: '+ error);
+		}
+		obj.callback({
+			origRes: obj.res,
+			query:   obj.query,
+			type:    obj.type,
+			results: results
+		});
+		mongo.close();
 	});
 };
 
 var setCache = function(type,query,res) {
+	var mongo      = new easymongo({dbname: 'moviedbcache'});
 	var collection = mongo.collection(type);
 
 	var record = {
@@ -173,7 +139,11 @@ var setCache = function(type,query,res) {
 		result: res
 	};
 	collection.save(record, function(error, results) {
-		// Returns a new document (array).
-		console.log(results);
+		if (error) {
+			console.log('-------------------setCache error: '+ error);
+		}
+		console.log('--caching '+ type +' record');
+		mongo.close();
 	});
 };
+
