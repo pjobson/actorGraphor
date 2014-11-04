@@ -11,8 +11,6 @@
 	                          w92
 	                          w45
 */
-
-
 'use strict';
 
 var apikey     = 'c3df732a39ff82b47035cda9078a7a24';
@@ -36,6 +34,7 @@ var tmdb = {
 	startApp: function() {
 		this.app.use('/', this.router);
 		this.app.listen(this.port);
+		console.log('listening on port: '+ this.port);
 	},
 	setupRouter: function() {
 		this.router.get('/', function(req, res) {

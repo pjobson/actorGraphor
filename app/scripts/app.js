@@ -15,7 +15,9 @@ angular
 		'ngResource',
 		'ngRoute',
 		'ngSanitize',
-		'ngTouch'
+		'ngTouch',
+		'ngLodash',
+		'highcharts-ng'
 	])
 	.config(function ($routeProvider) {
 		$routeProvider
