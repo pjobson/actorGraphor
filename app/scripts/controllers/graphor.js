@@ -31,7 +31,6 @@ angular.module('actorGraphor').controller('GraphorCtrl', [
 			};
 
 			$scope.profile.biography = $scope.profile.biography.replace(/&amp;/g,'&').replace(/\sDescription above/,'\nDescription above').split(/\n+/);
-			console.log($scope.profile.biography);
 
 			loadCredits();
 		});
@@ -39,30 +38,26 @@ angular.module('actorGraphor').controller('GraphorCtrl', [
 			ActorResumeSrvc.personCredits($scope.personId).success(function(pCData) {
 				entries = pCData.cast;
 				counter = entries.length;
-				getNextEntry();
-			});
-		};
-		var getNextEntry = function() {
-			var thisMovie = entries[--counter];
-			if (thisMovie) {
-				ActorResumeSrvc.movieInfo(thisMovie.id).success(function(mIData) {
-					if (mIData.status === 'Released' && mIData.budget > 0 && mIData.vote_count > 10) {
-						thisMovie = lodash.merge(thisMovie,{
-							title:       mIData.title,
-							overview:    mIData.overview,
-							runtime:     mIData.runtime,
-							voteAvg:     mIData.vote_average,
-							voteCnt:     mIData.vote_count
-						});
-						thisMovie.release_date = toEpoch(thisMovie.release_date);
-						movies.push(thisMovie);
-					}
-					getNextEntry();
+				pCData.cast.forEach(function(movie) {
+					ActorResumeSrvc.movieInfo(movie.id).success(function(mIData) {
+						counter--;
+						if (mIData.status === 'Released' && mIData.budget > 0 && mIData.vote_count > 0) {
+							movie = lodash.merge(movie, {
+								title:       mIData.title,
+								overview:    mIData.overview,
+								runtime:     mIData.runtime,
+								voteAvg:     mIData.vote_average,
+								voteCnt:     mIData.vote_count
+							});
+							movie.release_date = toEpoch(movie.release_date);
+							movies.push(movie);
+						}
+						if (counter === 0) {
+							buildChart();
+						}
+					});
 				});
-			} else {
-				entries = null;
-				buildChart();
-			}
+			});
 		};
 		var buildChart = function() {
 			var data = {
@@ -75,7 +70,7 @@ angular.module('actorGraphor').controller('GraphorCtrl', [
 			});
 
 			movies.forEach(function(movie) {
-				data.cats.push(movie.title);
+				data.cats.push(movie.title +'<br/>('+ (new Date(movie.release_date).getFullYear()) +')');
 				data.rats.push(movie.voteAvg);
 			});
 
@@ -103,8 +98,9 @@ angular.module('actorGraphor').controller('GraphorCtrl', [
 					'categories': data.cats,
 					'labels': {
 						'style': {
-							'width': '100px',
-							'min-width': '100px'
+							'font-size': '10px',
+							'width': '125px',
+							'min-width': '125px'
 						},
 						'useHTML': true
 					}
