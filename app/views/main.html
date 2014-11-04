@@ -7,21 +7,9 @@
 	<p>
 		This is my AngularJS experiment for graphing actor's careers based on ratings from <a href="//www.themoviedb.org/">themoviedb</a>.
 	</p>
-	<h3>Graphor me dez actors!</h3>
+	<h3>Graphor a recently viewed actor!</h3>
+	<p>...or go <a href="#/search">search</a> for some.</p>
 	<ul>
-		<li><a href="#/graphor?person=85">Johnny Depp</a></li>
-		<li><a href="#/graphor?person=28782">Monica Bellucci</a></li>
-		<li><a href="#/graphor?person=16828">Chris Evans</a></li>
-		<li><a href="#/graphor?person=287">Brad Pitt</a></li>
-		<li><a href="#/graphor?person=31">Tom Hanks</a></li>
-		<li><a href="#/graphor?person=36594">Juno Temple</a></li>
-		<li><a href="#/graphor?person=1245">Scarlett Johansson</a></li>
-		<li><a href="#/graphor?person=8167">Paul Walker</a></li>
-		<li><a href="#/graphor?person=6968">Hugh Jackman</a></li>
-		<li><a href="#/graphor?person=5081">Emily Blunt</a></li>
-		<li><a href="#/graphor?person=500">Tom Cruise</a></li>
-		<li><a href="#/graphor?person=18918">Dwayne Johnson</a></li>
-		<li><a href="#/graphor?person=62">Bruce Willis</a></li>
-		<li><a href="#/graphor?person=11701">Angelina Jolie</a></li>
+		<li ng-repeat="actor in cachedActors"><a ng-href="#/graphor?person={{ actor.id }}">{{ actor.name }}</a></li>
 	</ul>
 </div>

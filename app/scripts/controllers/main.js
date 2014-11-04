@@ -7,10 +7,13 @@
  * # MainCtrl
  * Controller of the actorGraphor
  */
-angular.module('actorGraphor').controller('MainCtrl', function ($scope) {
-	$scope.awesomeThings = [
-		'HTML5 Boilerplate',
-		'AngularJS',
-		'Karma'
-	];
-});
+angular.module('actorGraphor').controller('MainCtrl', [
+	'$scope',
+	'$location',
+	'ActorResumeSrvc',
+	function ($scope, $location, ActorResumeSrvc) {
+		ActorResumeSrvc.actorCache().success(function(aCData) {
+			$scope.cachedActors = aCData.reverse();
+		});
+	}
+]);

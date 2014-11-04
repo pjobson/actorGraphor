@@ -86,6 +86,27 @@ router.route('/movieInfo/:id').get(function(req, res) {
 	});
 });
 
+// Cached Actors
+router.route('/actorCache').get(function(req, res) {
+	var mongo      = new easymongo({dbname: 'moviedbcache'});
+	var collection = mongo.collection('personInfo');
+
+	collection.find({}, {limit: 50}, function(error, results) {
+		if (error) {
+			console.log('-------------------getCache error: '+ error);
+		}
+		var actors = [];
+		results.forEach(function(actor) {
+			actors.push({
+				name: actor.result.name,
+				id:   actor.result.id
+			});
+		});
+		res.json(actors);
+		mongo.close();
+	});
+});
+
 app.use('/', router);
 app.listen(port);
 console.log('listening on port: '+ port);
@@ -104,7 +125,8 @@ var resultCallback = function(obj) {
 		obj = null;
 	} else {
 		// get result and cache it
-		mdb[obj.type]({ id: obj.query }, function(err, mdbRes){
+		var query = (obj.type==='searchPerson') ? { query: obj.query } : { id: obj.query };
+		mdb[obj.type](query, function(err, mdbRes){
 			setCache(obj.type,obj.query,mdbRes);
 			obj.origRes.json(mdbRes);
 			obj = null;

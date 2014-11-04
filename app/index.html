@@ -25,9 +25,8 @@
 		<div class="container">
 			<div class="header">
 				<ul class="nav nav-pills pull-right">
-					<li class="active"><a ng-href="#">Home</a></li>
-					<li><a ng-href="#/about">About</a></li>
-					<li><a ng-href="#/contact">Contact</a></li>
+					<li active-link="active"><a ng-href="#/">Home</a></li>
+					<li active-link="active"><a ng-href="#/search">Search</a></li>
 				</ul>
 				<h3 class="text-muted">actorGraphor</h3>
 			</div>
@@ -81,8 +80,9 @@
 		<!-- build:js({.tmp,app}) scripts/scripts.js -->
 		<script src="scripts/app.js"></script>
 		<script src="scripts/factories/actorResume.js"></script>
+		<script src="scripts/directives/activeLink.js"></script>
 		<script src="scripts/controllers/main.js"></script>
-		<script src="scripts/controllers/about.js"></script>
+		<script src="scripts/controllers/search.js"></script>
 		<script src="scripts/controllers/graphor.js"></script>
 		<!-- endbuild -->
 </body>

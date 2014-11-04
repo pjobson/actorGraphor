@@ -16,12 +16,16 @@ angular.module('actorGraphor').controller('GraphorCtrl', [
 		var movies  = [];
 		var entries = [];
 		var counter = 0;
+
+		$scope.noData      = false;
+		$scope.chartLoaded = false;
+
 		$scope.personId = $routeParams.person;
 		ActorResumeSrvc.personInfo($scope.personId).success(function(pIData) {
 			$scope.citePattern = new RegExp('^Description above');
 			$scope.profile = {
 				pic:          (pIData.profile_path) ? '/img185'+pIData.profile_path : '/images/default_pic.jpg',
-				biography:    pIData.biography                   || false,
+				biography:    pIData.biography                   || 'No biographical information found.',
 				birthday:     toEpoch(pIData.birthday)           || false,
 				deathday:     toEpoch(pIData.deathday)           || false,
 				imdbId:       pIData.imdb_id                     || false,
@@ -37,28 +41,34 @@ angular.module('actorGraphor').controller('GraphorCtrl', [
 		var loadCredits = function() {
 			ActorResumeSrvc.personCredits($scope.personId).success(function(pCData) {
 				entries = pCData.cast;
-				counter = entries.length;
-				pCData.cast.forEach(function(movie) {
-					ActorResumeSrvc.movieInfo(movie.id).success(function(mIData) {
-						counter--;
-						if (mIData.status === 'Released' && mIData.budget > 0 && mIData.vote_count > 0) {
-							movie = lodash.merge(movie, {
-								title:       mIData.title,
-								overview:    mIData.overview,
-								runtime:     mIData.runtime,
-								voteAvg:     mIData.vote_average,
-								voteCnt:     mIData.vote_count
-							});
-							movie.release_date = toEpoch(movie.release_date);
-							movies.push(movie);
-						}
-						if (counter === 0) {
-							buildChart();
-						}
+				if (entries.length>0) {
+					counter = entries.length;
+					pCData.cast.forEach(function(movie) {
+						ActorResumeSrvc.movieInfo(movie.id).success(function(mIData) {
+							counter--;
+							if (mIData.status === 'Released' && mIData.budget > 0 && mIData.vote_count > 0) {
+								movie = lodash.merge(movie, {
+									title:       mIData.title,
+									overview:    mIData.overview,
+									runtime:     mIData.runtime,
+									voteAvg:     mIData.vote_average,
+									voteCnt:     mIData.vote_count
+								});
+								movie.release_date = toEpoch(movie.release_date);
+								movies.push(movie);
+							}
+							if (counter === 0) {
+								buildChart();
+							}
+						});
 					});
-				});
+				} else {
+					// No actor data found
+					$scope.noData = true;
+				}
 			});
 		};
+
 		var buildChart = function() {
 			var data = {
 				cats: [],
@@ -78,7 +88,7 @@ angular.module('actorGraphor').controller('GraphorCtrl', [
 				'options': {
 					'chart': {
 						'type': 'bar',
-						'height': 50*(movies.length)
+						'height': (50*movies.length)+100
 					},
 					'title': {
 						'text': $scope.profile.name +'\'s Movie Ratings'
@@ -132,14 +142,18 @@ angular.module('actorGraphor').controller('GraphorCtrl', [
 			$scope.chartLoaded = true;
 		};
 		var toEpoch = function(date) {
-			date = date.split(/-/).map(function(n,i) {
-				if (i===1) {
-					return parseInt(n,10)-1;
-				}
-				return parseInt(n,10);
-			});
-			date = new Date(date[0],date[1],date[2],0,0,0,0);
-			return date.getTime();
+			if (date) {
+				date = date.split(/-/).map(function(n,i) {
+					if (i===1) {
+						return parseInt(n,10)-1;
+					}
+					return parseInt(n,10);
+				});
+				date = new Date(date[0],date[1],date[2],0,0,0,0);
+				return date.getTime();
+			} else {
+				return false;
+			}
 		};
 	}
 ]);

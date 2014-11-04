@@ -122,3 +122,7 @@ div#biography p.wiki {
   text-align: center;
   color: #8F8F8F;
 }
+
+div#actorList {
+  margin-bottom: 20px;
+}

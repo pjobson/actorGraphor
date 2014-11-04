@@ -9,11 +9,13 @@
  */
 angular.module('actorGraphor').factory('ActorResumeSrvc', function ($http) {
 		var factory = {
-			searchPerson: function() {
+			actorCache: function() {
+				// /api/actorCache
+				return $http.get('/api/actorCache');
+			},
+			searchPerson: function(query) {
 				// /api/searchPerson/person_name
-				// $http.get('//api/searchPerson/person_name/').success(function() {
-				// 	// stuff
-				// });
+				return $http.get('/api/searchPerson/'+ query);
 			},
 			personInfo: function(personId) {
 				// /api/personInfo/##

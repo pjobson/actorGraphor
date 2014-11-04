@@ -1,0 +1,18 @@
+<div id="actorList">
+	<h1>Search for Actor</h1>
+	<div>
+		Name: <input type="text" ng-keyup="keyup($event,nameValue)" ng-model="nameValue" />
+	</div>
+	<div ng-show="actorList.length>0">
+		<ul>
+			<li ng-repeat="actor in actorList">
+				<a ng-href="#/graphor?person={{ actor.id }}">{{ actor.name }}</a>
+				<ul>
+					<li ng-repeat="knownFor in actor.known_for">
+						{{ knownFor.title || knownFor.name }}
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</div>
