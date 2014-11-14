@@ -9,7 +9,17 @@ nginx to proxy the requests to a single page.  I also cache all requests using m
 
 To run it:
 
-Create a mongodb laid out as such, I don't currently have a username/password on my local mongod instance, you'll have to modify themoviedb.node.js if yours does.
+Clone the repo.
+
+Install modules from package.json, may take a few minutes depending on your connection.
+
+    npm install
+
+Install modules from bower.json, should go pretty quick.
+
+    bower install
+
+Create a mongodb instance with the following collections laid out as such, I don't currently have a username/password on my local mongod instance, you'll have to modify themoviedb.node.js if yours does.
 
     moviedbcache
         movieInfo
@@ -21,15 +31,13 @@ Modify your nginx.conf to proxy the front-end and back-end.  I included a sample
 
 http://raw.githubusercontent.com/pjobson/actorGraphor/master/nginx.sample.conf
 
-Start the front-end on port 9000 with grunt:
+Start the front-end on port 9000 with grunt.  This will spawn a browser, I haven't disabled it in the grunt file for testing, you can close it.
 
-    actorGraphor/grunt serve
+    grunt serve
 
-Start the node.js service on port 8080:
+Start the node.js service on port 8080, this will 
 
-    actorGraphor/node_services/node themoviedb.node.js
-
-
+    node themoviedb.node.js
 
 ![Alt text](https://raw.githubusercontent.com/pjobson/actorGraphor/master/app/images/actor_graphor_demo_page.jpg)
 
