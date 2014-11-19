@@ -30,7 +30,10 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "karma": "^0.12.24",
     "karma-jasmine": "^0.1.5",
-    "moviedb": "^0.1.9"
+    "moviedb": "^0.1.9",
+    "express": "~4.0.0",
+    "mongoose": "~3.6.13",
+    "easymongo": "~4.0.0"
   },
   "engines": {
     "node": ">=0.10.0"
