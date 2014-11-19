@@ -37,7 +37,7 @@ Start the front-end on port 9000 with grunt.  This will spawn a browser, I haven
 
 Start the node.js service on port 8080, this will 
 
-    node themoviedb.node.js
+    node node_services/themoviedb.node.js
 
 ![Alt text](https://raw.githubusercontent.com/pjobson/actorGraphor/master/app/images/actor_graphor_demo_page.jpg)
 
