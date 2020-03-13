@@ -31,7 +31,7 @@
     "karma": "^0.12.24",
     "karma-jasmine": "^0.1.5",
     "moviedb": "^0.1.9",
-    "express": "~4.0.0",
+    "express": "~4.17.1",
     "mongoose": "~5.9.4",
     "easymongo": "~4.0.0"
   },
